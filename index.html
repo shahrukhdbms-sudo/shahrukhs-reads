@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Shahrukh's Reads - History-Provoking Ideas for Modern Research">
+    <meta name="theme-color" content="#1a1a2e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Shahrukh's Reads">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <title>Shahrukh's Reads</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #faf9f7;
+            --bg-secondary: #f0ede8;
+            --bg-card: #ffffff;
+            --text-primary: #1a1a2e;
+            --text-secondary: #4a4a5a;
+            --text-muted: #8a8a9a;
+            --accent: #c9a227;
+            --accent-dark: #a68520;
+            --border: #e5e2dc;
+            --shadow: rgba(26, 26, 46, 0.08);
+            --shadow-hover: rgba(26, 26, 46, 0.15);
+            --category-history: #7b68ee;
+            --category-modern: #20b2aa;
+            --category-intersection: #e07850;
+            --category-thought: #da70d6;
+            --category-featured: #c9a227;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--text-primary) 0%, #2d2d4a 100%);
+            color: var(--bg-primary);
+            padding: 2rem 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 60%;
+            height: 200%;
+            background: radial-gradient(ellipse, rgba(201, 162, 39, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--accent-dark) 50%, var(--accent) 100%);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .tagline {
+            font-size: 1rem;
+            font-weight: 300;
+            opacity: 0.9;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        /* Search Bar */
+        .search-container {
+            max-width: 1200px;
+            margin: -1.5rem auto 0;
+            padding: 0 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .search-box {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 8px 30px var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .search-box svg {
+            width: 20px;
+            height: 20px;
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        .search-box input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            font-family: inherit;
+            background: transparent;
+            color: var(--text-primary);
+        }
+
+        .search-box input::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* Categories Filter */
+        .categories-filter {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 0.5rem 1.25rem;
+            border-radius: 25px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-family: inherit;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .category-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .category-btn.active {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            border-color: var(--text-primary);
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem 3rem;
+        }
+
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Post Card */
+        .post-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px var(--shadow);
+            border: 1px solid var(--border);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            animation: fadeInUp 0.6s ease-out both;
+        }
+
+        .post-card:nth-child(1) { animation-delay: 0.1s; }
+        .post-card:nth-child(2) { animation-delay: 0.15s; }
+        .post-card:nth-child(3) { animation-delay: 0.2s; }
+        .post-card:nth-child(4) { animation-delay: 0.25s; }
+        .post-card:nth-child(5) { animation-delay: 0.3s; }
+        .post-card:nth-child(6) { animation-delay: 0.35s; }
+
+        .post-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px var(--shadow-hover);
+        }
+
+        .post-card-header {
+            padding: 1.5rem 1.5rem 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .post-category {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 0.75rem;
+        }
+
+        .post-category.historical { background: rgba(123, 104, 238, 0.15); color: var(--category-history); }
+        .post-category.modern { background: rgba(32, 178, 170, 0.15); color: var(--category-modern); }
+        .post-category.intersection { background: rgba(224, 120, 80, 0.15); color: var(--category-intersection); }
+        .post-category.thought { background: rgba(218, 112, 214, 0.15); color: var(--category-thought); }
+        .post-category.featured { background: rgba(201, 162, 39, 0.15); color: var(--category-featured); }
+
+        .post-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.3;
+            color: var(--text-primary);
+        }
+
+        .post-card-body {
+            padding: 1rem 1.5rem 1.5rem;
+        }
+
+        .post-excerpt {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .post-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .post-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .post-meta svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Post Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(26, 26, 46, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.95);
+            width: 90%;
+            max-width: 700px;
+            max-height: 85vh;
+            background: var(--bg-card);
+            border-radius: 20px;
+            z-index: 101;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .modal-header {
+            padding: 2rem 2rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        .modal-category {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .modal-category.historical { background: rgba(123, 104, 238, 0.15); color: var(--category-history); }
+        .modal-category.modern { background: rgba(32, 178, 170, 0.15); color: var(--category-modern); }
+        .modal-category.intersection { background: rgba(224, 120, 80, 0.15); color: var(--category-intersection); }
+        .modal-category.thought { background: rgba(218, 112, 214, 0.15); color: var(--category-thought); }
+        .modal-category.featured { background: rgba(201, 162, 39, 0.15); color: var(--category-featured); }
+
+        .modal-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1.3;
+            padding-right: 2rem;
+        }
+
+        .modal-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .modal-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .modal-meta svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .modal-body {
+            padding: 2rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .modal-content {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .modal-content p {
+            margin-bottom: 1.25rem;
+        }
+
+        .modal-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .modal-footer {
+            padding: 1.25rem 2rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+        }
+
+        .share-btn {
+            padding: 0.6rem 1.25rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-family: inherit;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .share-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .share-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+        }
+
+        .empty-state svg {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-secondary);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .footer-text a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        /* Install Banner */
+        .install-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            padding: 1rem 1.5rem;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            z-index: 50;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        .install-banner.show {
+            display: flex;
+        }
+
+        .install-banner p {
+            font-size: 0.9rem;
+        }
+
+        .install-banner button {
+            padding: 0.5rem 1.25rem;
+            border-radius: 6px;
+            border: none;
+            background: var(--accent);
+            color: var(--text-primary);
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .install-banner .close-banner {
+            background: transparent;
+            color: var(--bg-primary);
+            padding: 0.5rem;
+            opacity: 0.7;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2rem;
+            }
+
+            .tagline {
+                font-size: 0.85rem;
+            }
+
+            .posts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal {
+                width: 95%;
+                max-height: 90vh;
+            }
+
+            .modal-header {
+                padding: 1.5rem 1.5rem 1rem;
+            }
+
+            .modal-title {
+                font-size: 1.5rem;
+            }
+
+            .modal-body {
+                padding: 1.5rem;
+            }
+
+            .modal-footer {
+                padding: 1rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1 class="logo">Shahrukh's <span>Reads</span></h1>
+            <p class="tagline">History-Provoking Ideas for Modern Research</p>
+        </div>
+    </header>
+
+    <div class="search-container">
+        <div class="search-box">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input type="text" id="searchInput" placeholder="Search ideas...">
+        </div>
+    </div>
+
+    <div class="categories-filter">
+        <button class="category-btn active" data-category="all">All</button>
+        <button class="category-btn" data-category="featured">Featured</button>
+        <button class="category-btn" data-category="historical">Historical Foundations</button>
+        <button class="category-btn" data-category="modern">Modern Perspectives</button>
+        <button class="category-btn" data-category="intersection">Research Intersections</button>
+        <button class="category-btn" data-category="thought">Thought Experiments</button>
+    </div>
+
+    <main>
+        <div class="posts-grid" id="postsGrid">
+            <!-- Posts will be dynamically inserted here -->
+        </div>
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+            <h3>No posts found</h3>
+            <p>Try adjusting your search or filter</p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p class="footer-text">© 2025 Shahrukh's Reads. Curated with ♥ for curious minds.</p>
+        </div>
+    </footer>
+
+    <!-- Post Modal -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal" id="postModal">
+        <div class="modal-header">
+            <button class="modal-close" id="modalClose">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <span class="modal-category" id="modalCategory"></span>
+            <h2 class="modal-title" id="modalTitle"></h2>
+            <div class="modal-meta">
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <span id="modalDate"></span>
+                </span>
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span id="modalReadTime"></span>
+                </span>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="modal-content" id="modalContent"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="share-btn" id="shareBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                </svg>
+                Share
+            </button>
+        </div>
+    </div>
+
+    <!-- Install Banner -->
+    <div class="install-banner" id="installBanner">
+        <p>Install Shahrukh's Reads for quick access</p>
+        <div>
+            <button id="installBtn">Install</button>
+            <button class="close-banner" id="closeBanner">✕</button>
+        </div>
+    </div>
+
+    <script>
+        // Posts Data - Edit this array to add/modify posts
+        const posts = [
+            {
+                id: 1,
+                title: "Deterrence Theory: From Cold War to Cyberspace",
+                category: "historical",
+                categoryLabel: "Historical Foundations",
+                excerpt: "How classical deterrence principles from international relations found new life in cybersecurity frameworks.",
+                content: `<p>The concept of deterrence, originally developed in the context of nuclear strategy during the Cold War, has undergone a remarkable transformation in its application to modern cybersecurity challenges.</p>
+                <p>Classical deterrence theory, as articulated by scholars like Thomas Schelling, rested on the premise that the threat of retaliation could prevent adversarial actions. The certainty of punishment and the severity of consequences formed the twin pillars of this approach.</p>
+                <p>In the digital age, these principles have been adapted to address cybercrime and cyber warfare. However, the translation is not straightforward. Unlike nuclear weapons, cyber attacks can be conducted anonymously, attribution remains challenging, and the asymmetry between attackers and defenders creates unique dynamics.</p>
+                <p>Modern research explores how perceived sanctions certainty and severity influence the behavioral intentions of potential cyber offenders, bridging historical theory with contemporary practice.</p>`,
+                date: "December 5, 2025",
+                readTime: "4 min read"
+            },
+            {
+                id: 2,
+                title: "The Theory of Planned Behavior in Digital Governance",
+                category: "modern",
+                categoryLabel: "Modern Perspectives",
+                excerpt: "Examining how attitudes, subjective norms, and perceived control shape e-government employee behavior.",
+                content: `<p>Icek Ajzen's Theory of Planned Behavior (TPB) has emerged as a powerful lens for understanding human behavior in organizational contexts, particularly within e-government services.</p>
+                <p>The theory posits that behavioral intention—the immediate antecedent of behavior—is shaped by three factors: attitude toward the behavior, subjective norms, and perceived behavioral control.</p>
+                <p>In the context of cybersecurity compliance among government employees, attitude consistently emerges as the strongest predictor of behavioral intention. This finding has profound implications for policy design and training programs.</p>
+                <p>When employees genuinely believe that security practices are valuable and beneficial, they are far more likely to adopt them. This suggests that awareness campaigns focusing solely on rules and regulations may be less effective than those that cultivate positive attitudes toward security behaviors.</p>`,
+                date: "December 3, 2025",
+                readTime: "5 min read"
+            },
+            {
+                id: 3,
+                title: "Where Criminology Meets Information Systems",
+                category: "intersection",
+                categoryLabel: "Research Intersections",
+                excerpt: "The fertile ground where two disciplines converge to address cybercrime prevention.",
+                content: `<p>The study of cybercrime prevention occupies a unique interdisciplinary space, drawing from both criminological theories and information systems research.</p>
+                <p>Traditional criminology offers frameworks like deterrence theory, routine activity theory, and social learning theory. Meanwhile, information systems research contributes models of technology acceptance, security behavior, and organizational compliance.</p>
+                <p>This intersection has proven remarkably fertile. By combining the criminologist's understanding of why people commit crimes with the IS researcher's insights into technology adoption and organizational behavior, scholars have developed more nuanced and effective approaches to cybercrime mitigation.</p>
+                <p>The challenge lies in integrating these perspectives coherently, respecting the epistemological traditions of each field while creating something genuinely new and practically useful.</p>`,
+                date: "November 28, 2025",
+                readTime: "4 min read"
+            },
+            {
+                id: 4,
+                title: "What If We Could Predict Cyber Attacks?",
+                category: "thought",
+                categoryLabel: "Thought Experiments",
+                excerpt: "Exploring the ethical and practical implications of predictive cybersecurity.",
+                content: `<p>Imagine a world where artificial intelligence could predict cyber attacks before they occur with high accuracy. What would the implications be for privacy, civil liberties, and the nature of security itself?</p>
+                <p>Predictive policing has already raised significant concerns in the physical world. Translated to cyberspace, these concerns become even more complex. Would we monitor all network traffic continuously? Would certain behavioral patterns trigger pre-emptive interventions?</p>
+                <p>The thought experiment reveals fundamental tensions between security and freedom, between prevention and presumption of innocence. It forces us to confront what we truly value and what trade-offs we are willing to accept.</p>
+                <p>Perhaps the most provocative question is this: in a world of perfect prediction, would the concept of deterrence become obsolete? And if so, what would replace it?</p>`,
+                date: "November 25, 2025",
+                readTime: "3 min read"
+            },
+            {
+                id: 5,
+                title: "NIST Framework: Engineering Meets Policy",
+                category: "featured",
+                categoryLabel: "Featured Reads",
+                excerpt: "How the NIST Cybersecurity Framework bridges technical controls and organizational governance.",
+                content: `<p>The National Institute of Standards and Technology (NIST) Cybersecurity Framework represents one of the most successful attempts to translate technical security requirements into language that executives, policymakers, and practitioners can understand and implement.</p>
+                <p>Built around five core functions—Identify, Protect, Detect, Respond, and Recover—the framework provides a common vocabulary for discussing cybersecurity across organizational boundaries and professional disciplines.</p>
+                <p>What makes the NIST Framework particularly valuable is its flexibility. It does not prescribe specific technologies or solutions but instead offers a structure for organizations to assess their current state, define their target state, and plan their journey between the two.</p>
+                <p>For researchers, the framework offers a practical touchstone for connecting theoretical constructs to real-world implementation. Studies examining how deterrence mechanisms map onto NIST categories can produce insights that are both academically rigorous and practically relevant.</p>`,
+                date: "November 20, 2025",
+                readTime: "5 min read"
+            },
+            {
+                id: 6,
+                title: "The Sociology of Security Culture",
+                category: "historical",
+                categoryLabel: "Historical Foundations",
+                excerpt: "Tracing the evolution of organizational security culture from physical to digital realms.",
+                content: `<p>Long before cybersecurity became a concern, organizations grappled with creating cultures of security. The lessons learned in protecting physical assets, trade secrets, and personnel have surprising relevance for today's digital challenges.</p>
+                <p>Early industrial organizations developed security cultures around concepts like "need to know" and compartmentalization. Military organizations contributed ideas about operational security and the human factors in security breaches.</p>
+                <p>The sociological perspective reminds us that security is fundamentally a social phenomenon. Technologies can enable or constrain, but ultimately it is human beings who comply or circumvent, who remain vigilant or grow complacent.</p>
+                <p>Understanding this history helps us avoid reinventing the wheel while also recognizing what is genuinely new about cybersecurity challenges.</p>`,
+                date: "November 15, 2025",
+                readTime: "4 min read"
+            }
+        ];
+
+        // DOM Elements
+        const postsGrid = document.getElementById('postsGrid');
+        const emptyState = document.getElementById('emptyState');
+        const searchInput = document.getElementById('searchInput');
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const postModal = document.getElementById('postModal');
+        const modalClose = document.getElementById('modalClose');
+        const shareBtn = document.getElementById('shareBtn');
+        const installBanner = document.getElementById('installBanner');
+        const installBtn = document.getElementById('installBtn');
+        const closeBanner = document.getElementById('closeBanner');
+
+        let currentCategory = 'all';
+        let currentSearch = '';
+        let deferredPrompt = null;
+
+        // Render Posts
+        function renderPosts() {
+            const filteredPosts = posts.filter(post => {
+                const matchesCategory = currentCategory === 'all' || post.category === currentCategory;
+                const matchesSearch = post.title.toLowerCase().includes(currentSearch.toLowerCase()) ||
+                                     post.excerpt.toLowerCase().includes(currentSearch.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filteredPosts.length === 0) {
+                postsGrid.style.display = 'none';
+                emptyState.style.display = 'block';
+            } else {
+                postsGrid.style.display = 'grid';
+                emptyState.style.display = 'none';
+                postsGrid.innerHTML = filteredPosts.map(post => `
+                    <article class="post-card" data-id="${post.id}">
+                        <div class="post-card-header">
+                            <span class="post-category ${post.category}">${post.categoryLabel}</span>
+                            <h2 class="post-title">${post.title}</h2>
+                        </div>
+                        <div class="post-card-body">
+                            <p class="post-excerpt">${post.excerpt}</p>
+                            <div class="post-meta">
+                                <span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                    ${post.date}
+                                </span>
+                                <span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    ${post.readTime}
+                                </span>
+                            </div>
+                        </div>
+                    </article>
+                `).join('');
+
+                // Add click listeners to cards
+                document.querySelectorAll('.post-card').forEach(card => {
+                    card.addEventListener('click', () => openModal(parseInt(card.dataset.id)));
+                });
+            }
+        }
+
+        // Open Modal
+        function openModal(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (!post) return;
+
+            document.getElementById('modalCategory').textContent = post.categoryLabel;
+            document.getElementById('modalCategory').className = `modal-category ${post.category}`;
+            document.getElementById('modalTitle').textContent = post.title;
+            document.getElementById('modalDate').textContent = post.date;
+            document.getElementById('modalReadTime').textContent = post.readTime;
+            document.getElementById('modalContent').innerHTML = post.content;
+
+            modalOverlay.classList.add('active');
+            postModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            // Store current post for sharing
+            shareBtn.dataset.postId = postId;
+        }
+
+        // Close Modal
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            postModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Event Listeners
+        searchInput.addEventListener('input', (e) => {
+            currentSearch = e.target.value;
+            renderPosts();
+        });
+
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentCategory = btn.dataset.category;
+                renderPosts();
+            });
+        });
+
+        modalClose.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', closeModal);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // Share functionality
+        shareBtn.addEventListener('click', async () => {
+            const post = posts.find(p => p.id === parseInt(shareBtn.dataset.postId));
+            if (!post) return;
+
+            const shareData = {
+                title: post.title,
+                text: post.excerpt,
+                url: window.location.href
+            };
+
+            if (navigator.share) {
+                try {
+                    await navigator.share(shareData);
+                } catch (err) {
+                    console.log('Share cancelled');
+                }
+            } else {
+                // Fallback: copy to clipboard
+                navigator.clipboard.writeText(`${post.title}\n\n${post.excerpt}\n\n${window.location.href}`);
+                shareBtn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Copied!
+                `;
+                setTimeout(() => {
+                    shareBtn.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                        </svg>
+                        Share
+                    `;
+                }, 2000);
+            }
+        });
+
+        // PWA Install
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBanner.classList.add('show');
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            deferredPrompt = null;
+            installBanner.classList.remove('show');
+        });
+
+        closeBanner.addEventListener('click', () => {
+            installBanner.classList.remove('show');
+        });
+
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Service Worker registered'))
+                    .catch(err => console.log('Service Worker registration failed:', err));
+            });
+        }
+
+        // Initial render
+        renderPosts();
+    </script>
+</body>
+</html>

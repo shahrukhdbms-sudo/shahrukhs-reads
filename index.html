@@ -1,0 +1,1707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Shahrukh's Reads - History-Provoking Ideas for Modern Research">
+    <meta name="theme-color" content="#0a0a0a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Shahrukh's Reads">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <title>Shahrukh's Reads | Magazine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Source+Sans+3:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-card: #141414;
+            --bg-elevated: #1a1a1a;
+            --bg-hover: #222222;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-muted: #666666;
+            --accent-red: #e63946;
+            --accent-gold: #d4a373;
+            --accent-blue: #4895ef;
+            --accent-green: #2a9d8f;
+            --accent-purple: #9d4edd;
+            --border: #2a2a2a;
+            --border-light: #333333;
+            --gradient-hero: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 30px rgba(0,0,0,0.4);
+            --shadow-lg: 0 20px 60px rgba(0,0,0,0.5);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-light);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-brand span {
+            color: var(--accent-red);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            position: relative;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .nav-btn:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+            border-color: var(--border-light);
+        }
+
+        .nav-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            min-width: 20px;
+            height: 20px;
+            padding: 0 6px;
+            background: var(--accent-red);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Notification Panel */
+        .notification-panel {
+            position: fixed;
+            top: 70px;
+            right: -400px;
+            width: 380px;
+            max-width: 90vw;
+            height: calc(100vh - 70px);
+            background: var(--bg-card);
+            border-left: 1px solid var(--border);
+            z-index: 99;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .notification-panel.open {
+            right: 0;
+        }
+
+        .notification-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .notification-header h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .mark-all-read {
+            font-size: 0.8rem;
+            color: var(--accent-blue);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .mark-all-read:hover {
+            color: var(--text-primary);
+            text-decoration: underline;
+        }
+
+        .notification-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0.5rem;
+        }
+
+        .notification-item {
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border-left: 3px solid transparent;
+        }
+
+        .notification-item:hover {
+            background: var(--bg-hover);
+        }
+
+        .notification-item.unread {
+            background: var(--bg-elevated);
+            border-left-color: var(--accent-red);
+        }
+
+        .notification-item.unread::before {
+            content: '';
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            background: var(--accent-red);
+            border-radius: 50%;
+        }
+
+        .notification-item {
+            position: relative;
+        }
+
+        .notification-category {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.35rem;
+        }
+
+        .notification-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 0.35rem;
+        }
+
+        .notification-time {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .notification-empty {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            color: var(--text-muted);
+        }
+
+        .notification-empty svg {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 98;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 2rem 60px;
+            background: var(--gradient-hero);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent-gold);
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero-label::before {
+            content: '';
+            width: 30px;
+            height: 2px;
+            background: var(--accent-gold);
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+            max-width: 900px;
+            animation: fadeInUp 0.8s ease-out 0.1s both;
+        }
+
+        .hero-title em {
+            font-style: italic;
+            color: var(--accent-gold);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            max-width: 600px;
+            line-height: 1.7;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        /* Search Section */
+        .search-section {
+            max-width: 1400px;
+            margin: -30px auto 0;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .search-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .search-box svg {
+            width: 22px;
+            height: 22px;
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        .search-box input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            font-family: inherit;
+            background: transparent;
+            color: var(--text-primary);
+        }
+
+        .search-box input::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* Categories */
+        .categories {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .cat-btn {
+            padding: 0.6rem 1.25rem;
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-family: inherit;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .cat-btn:hover {
+            background: var(--bg-hover);
+            border-color: var(--border-light);
+            color: var(--text-primary);
+        }
+
+        .cat-btn.active {
+            background: var(--text-primary);
+            color: var(--bg-dark);
+            border-color: var(--text-primary);
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Featured Post */
+        .featured-post {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            padding: 2.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            margin-bottom: 3rem;
+            cursor: pointer;
+            transition: var(--transition);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .featured-post:hover {
+            border-color: var(--border-light);
+            box-shadow: var(--shadow-md);
+        }
+
+        .featured-image {
+            aspect-ratio: 4/3;
+            background: var(--gradient-hero);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 6rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .featured-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, var(--accent-red) 0%, var(--accent-purple) 100%);
+            opacity: 0.3;
+        }
+
+        .featured-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .featured-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-red);
+            margin-bottom: 1rem;
+        }
+
+        .featured-label svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .featured-category {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0.35rem 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            width: fit-content;
+        }
+
+        .featured-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .featured-excerpt {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .featured-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .featured-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .featured-meta svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Section Header */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: var(--accent-red);
+            border-radius: 2px;
+        }
+
+        /* Posts Grid */
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        /* Post Card */
+        .post-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--transition);
+            animation: fadeInUp 0.6s ease-out both;
+        }
+
+        .post-card:nth-child(1) { animation-delay: 0.05s; }
+        .post-card:nth-child(2) { animation-delay: 0.1s; }
+        .post-card:nth-child(3) { animation-delay: 0.15s; }
+        .post-card:nth-child(4) { animation-delay: 0.2s; }
+        .post-card:nth-child(5) { animation-delay: 0.25s; }
+        .post-card:nth-child(6) { animation-delay: 0.3s; }
+
+        .post-card:hover {
+            border-color: var(--border-light);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .post-card-image {
+            aspect-ratio: 16/10;
+            background: var(--bg-elevated);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .post-card-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0.4;
+        }
+
+        .post-card.historical .post-card-image::after { background: linear-gradient(135deg, #7b68ee, #9d4edd); }
+        .post-card.modern .post-card-image::after { background: linear-gradient(135deg, #2a9d8f, #4895ef); }
+        .post-card.intersection .post-card-image::after { background: linear-gradient(135deg, #e07850, #d4a373); }
+        .post-card.thought .post-card-image::after { background: linear-gradient(135deg, #9d4edd, #e63946); }
+        .post-card.featured .post-card-image::after { background: linear-gradient(135deg, #d4a373, #e63946); }
+
+        .post-card-body {
+            padding: 1.25rem;
+        }
+
+        .post-card-category {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            margin-bottom: 0.75rem;
+        }
+
+        .post-card-category.historical { background: rgba(123, 104, 238, 0.2); color: #a78bfa; }
+        .post-card-category.modern { background: rgba(42, 157, 143, 0.2); color: #5eead4; }
+        .post-card-category.intersection { background: rgba(224, 120, 80, 0.2); color: #fbbf24; }
+        .post-card-category.thought { background: rgba(157, 78, 221, 0.2); color: #c084fc; }
+        .post-card-category.featured { background: rgba(212, 163, 115, 0.2); color: #d4a373; }
+
+        .post-card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            line-height: 1.35;
+            margin-bottom: 0.6rem;
+        }
+
+        .post-card-excerpt {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .post-card-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .post-card-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .post-card-meta svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .unread-indicator {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 12px;
+            height: 12px;
+            background: var(--accent-red);
+            border-radius: 50%;
+            border: 2px solid var(--bg-card);
+            box-shadow: 0 2px 8px rgba(230, 57, 70, 0.5);
+        }
+
+        .post-card-image {
+            position: relative;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 200;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.95);
+            width: 90%;
+            max-width: 800px;
+            max-height: 85vh;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            z-index: 201;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .modal-image {
+            height: 200px;
+            background: var(--gradient-hero);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.1);
+        }
+
+        .modal-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 0%, var(--bg-card) 100%);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            z-index: 10;
+        }
+
+        .modal-close:hover {
+            background: var(--accent-red);
+        }
+
+        .modal-header {
+            padding: 0 2rem 1.5rem;
+            margin-top: -60px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .modal-category {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0.35rem 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .modal-category.historical { background: rgba(123, 104, 238, 0.2); color: #a78bfa; }
+        .modal-category.modern { background: rgba(42, 157, 143, 0.2); color: #5eead4; }
+        .modal-category.intersection { background: rgba(224, 120, 80, 0.2); color: #fbbf24; }
+        .modal-category.thought { background: rgba(157, 78, 221, 0.2); color: #c084fc; }
+        .modal-category.featured { background: rgba(212, 163, 115, 0.2); color: #d4a373; }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 1rem;
+        }
+
+        .modal-meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .modal-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .modal-meta svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .modal-body {
+            padding: 0 2rem 2rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .modal-content {
+            font-size: 1.05rem;
+            line-height: 1.85;
+            color: var(--text-secondary);
+        }
+
+        .modal-content p {
+            margin-bottom: 1.25rem;
+        }
+
+        .modal-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .modal-content p::first-letter {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            float: left;
+            line-height: 1;
+            margin-right: 0.75rem;
+            margin-top: 0.1rem;
+            color: var(--accent-red);
+        }
+
+        .modal-content p:not(:first-child)::first-letter {
+            font-size: inherit;
+            float: none;
+            margin: 0;
+            color: inherit;
+        }
+
+        .modal-footer {
+            padding: 1.25rem 2rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .share-btn {
+            padding: 0.6rem 1.25rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-family: inherit;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .share-btn:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        .share-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+        }
+
+        .empty-state svg {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        .empty-state h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .footer-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .footer-brand span {
+            color: var(--accent-red);
+        }
+
+        .footer-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Install Banner */
+        .install-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            z-index: 50;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        .install-banner.show {
+            display: flex;
+        }
+
+        .install-banner p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .install-banner-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .install-btn {
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            background: var(--accent-red);
+            color: white;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .install-btn:hover {
+            background: #c1121f;
+        }
+
+        .close-banner {
+            padding: 0.6rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close-banner:hover {
+            border-color: var(--border-light);
+            color: var(--text-primary);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .featured-post {
+                grid-template-columns: 1fr;
+            }
+
+            .posts-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 0 1rem;
+            }
+
+            .hero {
+                padding: 100px 1rem 50px;
+            }
+
+            .search-section,
+            .categories,
+            main {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .posts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-post {
+                padding: 1.5rem;
+            }
+
+            .featured-title {
+                font-size: 1.5rem;
+            }
+
+            .modal {
+                width: 95%;
+                max-height: 90vh;
+                border-radius: 16px;
+            }
+
+            .modal-header {
+                padding: 0 1.5rem 1rem;
+            }
+
+            .modal-body {
+                padding: 0 1.5rem 1.5rem;
+            }
+
+            .modal-footer {
+                padding: 1rem 1.5rem;
+            }
+
+            .modal-title {
+                font-size: 1.35rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .notification-panel {
+                width: 100%;
+                right: -100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-brand">Shahrukh's <span>Reads</span></div>
+        <div class="nav-actions">
+            <button class="nav-btn" id="notificationBtn" aria-label="Notifications">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                </svg>
+                <span class="notification-badge" id="notificationBadge">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Notification Panel -->
+    <div class="overlay" id="notificationOverlay"></div>
+    <div class="notification-panel" id="notificationPanel">
+        <div class="notification-header">
+            <h3>New Posts</h3>
+            <button class="mark-all-read" id="markAllRead">Mark all as read</button>
+        </div>
+        <div class="notification-list" id="notificationList">
+            <!-- Notifications will be inserted here -->
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <div class="hero-label">The Magazine</div>
+            <h1 class="hero-title">Where <em>History</em> Provokes Modern Research Ideas</h1>
+            <p class="hero-subtitle">A curated collection of thought-provoking essays bridging classical theories with contemporary scholarship.</p>
+        </div>
+    </header>
+
+    <!-- Search -->
+    <div class="search-section">
+        <div class="search-box">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input type="text" id="searchInput" placeholder="Search articles...">
+        </div>
+    </div>
+
+    <!-- Categories -->
+    <div class="categories">
+        <button class="cat-btn active" data-category="all">All Articles</button>
+        <button class="cat-btn" data-category="featured">Featured</button>
+        <button class="cat-btn" data-category="historical">Historical Foundations</button>
+        <button class="cat-btn" data-category="modern">Modern Perspectives</button>
+        <button class="cat-btn" data-category="intersection">Research Intersections</button>
+        <button class="cat-btn" data-category="thought">Thought Experiments</button>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Featured Post -->
+        <article class="featured-post" id="featuredPost">
+            <!-- Will be populated by JS -->
+        </article>
+
+        <!-- Posts Grid -->
+        <div class="section-header">
+            <h2 class="section-title">Latest Articles</h2>
+        </div>
+        <div class="posts-grid" id="postsGrid">
+            <!-- Posts will be populated by JS -->
+        </div>
+
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+            <h3>No articles found</h3>
+            <p>Try adjusting your search or filter</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">Shahrukh's <span>Reads</span></div>
+            <p class="footer-text">© 2025. Curated for curious minds.</p>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal" id="postModal">
+        <div class="modal-image" id="modalImage">SR</div>
+        <button class="modal-close" id="modalClose">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+        <div class="modal-header">
+            <span class="modal-category" id="modalCategory"></span>
+            <h2 class="modal-title" id="modalTitle"></h2>
+            <div class="modal-meta">
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <span id="modalDate"></span>
+                </span>
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span id="modalReadTime"></span>
+                </span>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="modal-content" id="modalContent"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="share-btn" id="shareBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                </svg>
+                Share Article
+            </button>
+        </div>
+    </div>
+
+    <!-- Install Banner -->
+    <div class="install-banner" id="installBanner">
+        <p>📱 Install Shahrukh's Reads for the best experience</p>
+        <div class="install-banner-actions">
+            <button class="install-btn" id="installBtn">Install App</button>
+            <button class="close-banner" id="closeBanner">✕</button>
+        </div>
+    </div>
+
+    <script>
+        // Posts Data
+        const posts = [
+            {
+                id: 7,
+                title: "Empowering Public Health: AI-Powered Security Solutions for AI-Driven Challenges",
+                category: "modern",
+                categoryLabel: "Modern Perspectives",
+                excerpt: "Exploring how AI language models can enhance digital security in public healthcare while addressing critical challenges related to privacy and ethics.",
+                content: `<p>The escalating integration of artificial intelligence in public healthcare has raised a critical concern: the vast amounts of data being generated and utilised by AI language models are not adequately connected to privacy and security considerations.</p>
+                <p>This study addresses this problem by exploring how AI language models can be used to enhance digital security in public healthcare while addressing challenges related to privacy and ethics. The research adopts a three-phase methodology: a bibliometric analysis of literature from the Scopus database to identify research trends, the generation of AI-driven scenarios refined by healthcare professionals, and analysing AI responses using grounded theory.</p>
+                <p>The findings reveal important insights into how we can leverage the power of AI while maintaining robust security frameworks and ethical considerations in sensitive healthcare environments.</p>
+                <p style="margin-top: 2rem;"><a href="https://doi.org/10.1002/ail2.119" target="_blank" style="color: #4895ef; text-decoration: none; font-weight: 600;">📄 Read the full paper in Applied AI Letters →</a></p>`,
+                date: "April 20, 2025",
+                readTime: "Published Research",
+                featured: false
+            },
+            {
+                id: 1,
+                title: "Deterrence Theory: From Cold War to Cyberspace",
+                category: "historical",
+                categoryLabel: "Historical Foundations",
+                excerpt: "How classical deterrence principles from international relations found new life in cybersecurity frameworks and shaped modern digital defense strategies.",
+                content: `<p>The concept of deterrence, originally developed in the context of nuclear strategy during the Cold War, has undergone a remarkable transformation in its application to modern cybersecurity challenges. What began as a framework for preventing nuclear warfare has evolved into a sophisticated approach for combating digital threats.</p>
+                <p>Classical deterrence theory, as articulated by scholars like Thomas Schelling, rested on the premise that the threat of retaliation could prevent adversarial actions. The certainty of punishment and the severity of consequences formed the twin pillars of this approach. Nations maintained arsenals not primarily to use them, but to ensure they would never need to.</p>
+                <p>In the digital age, these principles have been adapted to address cybercrime and cyber warfare. However, the translation is not straightforward. Unlike nuclear weapons, cyber attacks can be conducted anonymously, attribution remains challenging, and the asymmetry between attackers and defenders creates unique dynamics that Cold War strategists never anticipated.</p>
+                <p>Modern research explores how perceived sanctions certainty and severity influence the behavioral intentions of potential cyber offenders, bridging historical theory with contemporary practice. The question remains: can deterrence truly work in a domain where anonymity is the norm and retaliation is often impossible?</p>`,
+                date: "December 5, 2025",
+                readTime: "4 min read",
+                featured: true
+            },
+            {
+                id: 2,
+                title: "The Theory of Planned Behavior in Digital Governance",
+                category: "modern",
+                categoryLabel: "Modern Perspectives",
+                excerpt: "Examining how attitudes, subjective norms, and perceived control shape e-government employee behavior in cybersecurity contexts.",
+                content: `<p>Icek Ajzen's Theory of Planned Behavior has emerged as a powerful lens for understanding human behavior in organizational contexts, particularly within e-government services. This framework, developed in the 1980s, continues to provide remarkable explanatory power for contemporary digital challenges.</p>
+                <p>The theory posits that behavioral intention—the immediate antecedent of behavior—is shaped by three factors: attitude toward the behavior, subjective norms, and perceived behavioral control. Each of these components plays a crucial role in determining whether an individual will adopt security practices or succumb to risky behaviors.</p>
+                <p>In the context of cybersecurity compliance among government employees, attitude consistently emerges as the strongest predictor of behavioral intention. This finding has profound implications for policy design and training programs. It suggests that fear-based approaches may be less effective than strategies that cultivate genuine appreciation for security measures.</p>
+                <p>When employees genuinely believe that security practices are valuable and beneficial, they are far more likely to adopt them. This suggests that awareness campaigns focusing solely on rules and regulations may be less effective than those that cultivate positive attitudes toward security behaviors.</p>`,
+                date: "December 3, 2025",
+                readTime: "5 min read",
+                featured: false
+            },
+            {
+                id: 3,
+                title: "Where Criminology Meets Information Systems",
+                category: "intersection",
+                categoryLabel: "Research Intersections",
+                excerpt: "The fertile ground where two disciplines converge to address cybercrime prevention with unprecedented effectiveness.",
+                content: `<p>The study of cybercrime prevention occupies a unique interdisciplinary space, drawing from both criminological theories and information systems research. This convergence has produced insights that neither field could have achieved alone, creating a new paradigm for understanding digital deviance.</p>
+                <p>Traditional criminology offers frameworks like deterrence theory, routine activity theory, and social learning theory. Meanwhile, information systems research contributes models of technology acceptance, security behavior, and organizational compliance. Together, they form a comprehensive toolkit for understanding why people commit cybercrimes and how to prevent them.</p>
+                <p>This intersection has proven remarkably fertile. By combining the criminologist's understanding of why people commit crimes with the IS researcher's insights into technology adoption and organizational behavior, scholars have developed more nuanced and effective approaches to cybercrime mitigation.</p>
+                <p>The challenge lies in integrating these perspectives coherently, respecting the epistemological traditions of each field while creating something genuinely new and practically useful. The researchers who succeed in this integration are pioneering a new discipline.</p>`,
+                date: "November 28, 2025",
+                readTime: "4 min read",
+                featured: false
+            },
+            {
+                id: 4,
+                title: "What If We Could Predict Cyber Attacks?",
+                category: "thought",
+                categoryLabel: "Thought Experiments",
+                excerpt: "Exploring the ethical and practical implications of predictive cybersecurity in an age of artificial intelligence.",
+                content: `<p>Imagine a world where artificial intelligence could predict cyber attacks before they occur with high accuracy. What would the implications be for privacy, civil liberties, and the nature of security itself? This thought experiment reveals fundamental tensions in our approach to digital safety.</p>
+                <p>Predictive policing has already raised significant concerns in the physical world. Translated to cyberspace, these concerns become even more complex. Would we monitor all network traffic continuously? Would certain behavioral patterns trigger pre-emptive interventions? Where do we draw the line between security and surveillance?</p>
+                <p>The thought experiment reveals fundamental tensions between security and freedom, between prevention and presumption of innocence. It forces us to confront what we truly value and what trade-offs we are willing to accept in pursuit of a secure digital environment.</p>
+                <p>Perhaps the most provocative question is this: in a world of perfect prediction, would the concept of deterrence become obsolete? And if so, what philosophical and practical frameworks would replace it? These questions demand our attention before the technology arrives.</p>`,
+                date: "November 25, 2025",
+                readTime: "3 min read",
+                featured: false
+            },
+            {
+                id: 5,
+                title: "NIST Framework: Engineering Meets Policy",
+                category: "featured",
+                categoryLabel: "Featured",
+                excerpt: "How the NIST Cybersecurity Framework bridges technical controls and organizational governance to create actionable security strategies.",
+                content: `<p>The National Institute of Standards and Technology Cybersecurity Framework represents one of the most successful attempts to translate technical security requirements into language that executives, policymakers, and practitioners can understand and implement effectively.</p>
+                <p>Built around five core functions—Identify, Protect, Detect, Respond, and Recover—the framework provides a common vocabulary for discussing cybersecurity across organizational boundaries and professional disciplines. This shared language has proven invaluable in bridging the gap between technical and business perspectives.</p>
+                <p>What makes the NIST Framework particularly valuable is its flexibility. It does not prescribe specific technologies or solutions but instead offers a structure for organizations to assess their current state, define their target state, and plan their journey between the two.</p>
+                <p>For researchers, the framework offers a practical touchstone for connecting theoretical constructs to real-world implementation. Studies examining how deterrence mechanisms map onto NIST categories can produce insights that are both academically rigorous and practically relevant to security professionals worldwide.</p>`,
+                date: "November 20, 2025",
+                readTime: "5 min read",
+                featured: false
+            },
+            {
+                id: 6,
+                title: "The Sociology of Security Culture",
+                category: "historical",
+                categoryLabel: "Historical Foundations",
+                excerpt: "Tracing the evolution of organizational security culture from physical safeguards to digital realms.",
+                content: `<p>Long before cybersecurity became a concern, organizations grappled with creating cultures of security. The lessons learned in protecting physical assets, trade secrets, and personnel have surprising relevance for today's digital challenges, offering wisdom that transcends technological change.</p>
+                <p>Early industrial organizations developed security cultures around concepts like "need to know" and compartmentalization. Military organizations contributed ideas about operational security and the human factors in security breaches. These concepts, refined over decades, form the foundation of modern security thinking.</p>
+                <p>The sociological perspective reminds us that security is fundamentally a social phenomenon. Technologies can enable or constrain, but ultimately it is human beings who comply or circumvent, who remain vigilant or grow complacent. Understanding this human element is essential for any security program.</p>
+                <p>Understanding this history helps us avoid reinventing the wheel while also recognizing what is genuinely new about cybersecurity challenges. The digital realm presents unique problems, but human nature remains remarkably consistent across eras.</p>`,
+                date: "November 15, 2025",
+                readTime: "4 min read",
+                featured: false
+            }
+        ];
+
+        // State
+        let currentCategory = 'all';
+        let currentSearch = '';
+        let readPosts = JSON.parse(localStorage.getItem('readPosts') || '[]');
+        let deferredPrompt = null;
+
+        // DOM Elements
+        const featuredPostEl = document.getElementById('featuredPost');
+        const postsGrid = document.getElementById('postsGrid');
+        const emptyState = document.getElementById('emptyState');
+        const searchInput = document.getElementById('searchInput');
+        const categoryBtns = document.querySelectorAll('.cat-btn');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const postModal = document.getElementById('postModal');
+        const modalClose = document.getElementById('modalClose');
+        const shareBtn = document.getElementById('shareBtn');
+        const notificationBtn = document.getElementById('notificationBtn');
+        const notificationPanel = document.getElementById('notificationPanel');
+        const notificationOverlay = document.getElementById('notificationOverlay');
+        const notificationList = document.getElementById('notificationList');
+        const notificationBadge = document.getElementById('notificationBadge');
+        const markAllRead = document.getElementById('markAllRead');
+        const installBanner = document.getElementById('installBanner');
+        const installBtn = document.getElementById('installBtn');
+        const closeBanner = document.getElementById('closeBanner');
+
+        // Get unread posts
+        function getUnreadPosts() {
+            return posts.filter(p => !readPosts.includes(p.id));
+        }
+
+        // Update notification badge
+        function updateNotificationBadge() {
+            const unreadCount = getUnreadPosts().length;
+            notificationBadge.textContent = unreadCount;
+            notificationBadge.style.display = unreadCount > 0 ? 'flex' : 'none';
+        }
+
+        // Mark post as read
+        function markAsRead(postId) {
+            if (!readPosts.includes(postId)) {
+                readPosts.push(postId);
+                localStorage.setItem('readPosts', JSON.stringify(readPosts));
+                updateNotificationBadge();
+                renderNotifications();
+                renderPosts();
+            }
+        }
+
+        // Render notifications
+        function renderNotifications() {
+            const unread = getUnreadPosts();
+            
+            if (unread.length === 0) {
+                notificationList.innerHTML = `
+                    <div class="notification-empty">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <p>You're all caught up!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            notificationList.innerHTML = unread.map(post => `
+                <div class="notification-item unread" data-id="${post.id}">
+                    <div class="notification-category" style="color: var(--accent-${post.category === 'historical' ? 'purple' : post.category === 'modern' ? 'green' : post.category === 'intersection' ? 'gold' : post.category === 'thought' ? 'purple' : 'red'})">${post.categoryLabel}</div>
+                    <div class="notification-title">${post.title}</div>
+                    <div class="notification-time">${post.readTime}</div>
+                </div>
+            `).join('');
+
+            // Add click listeners
+            document.querySelectorAll('.notification-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const postId = parseInt(item.dataset.id);
+                    closeNotificationPanel();
+                    openModal(postId);
+                });
+            });
+        }
+
+        // Render featured post
+        function renderFeaturedPost() {
+            const featured = posts.find(p => p.featured) || posts[0];
+            const isUnread = !readPosts.includes(featured.id);
+            
+            featuredPostEl.innerHTML = `
+                <div class="featured-image">SR</div>
+                <div class="featured-content">
+                    <div class="featured-label">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                        </svg>
+                        Featured Article ${isUnread ? '• New' : ''}
+                    </div>
+                    <span class="featured-category ${featured.category}" style="background: rgba(230, 57, 70, 0.15); color: var(--accent-red);">${featured.categoryLabel}</span>
+                    <h2 class="featured-title">${featured.title}</h2>
+                    <p class="featured-excerpt">${featured.excerpt}</p>
+                    <div class="featured-meta">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            ${featured.date}
+                        </span>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            ${featured.readTime}
+                        </span>
+                    </div>
+                </div>
+            `;
+
+            featuredPostEl.dataset.id = featured.id;
+            featuredPostEl.onclick = () => openModal(featured.id);
+        }
+
+        // Render posts
+        function renderPosts() {
+            const filtered = posts.filter(post => {
+                if (post.featured && currentCategory === 'all') return false; // Don't show featured in grid
+                const matchesCategory = currentCategory === 'all' || post.category === currentCategory;
+                const matchesSearch = post.title.toLowerCase().includes(currentSearch.toLowerCase()) ||
+                                     post.excerpt.toLowerCase().includes(currentSearch.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
+
+            // Show/hide featured based on filter
+            featuredPostEl.style.display = (currentCategory === 'all' && currentSearch === '') ? 'grid' : 'none';
+
+            if (filtered.length === 0 && (currentCategory !== 'all' || currentSearch !== '')) {
+                postsGrid.style.display = 'none';
+                emptyState.style.display = 'block';
+            } else {
+                postsGrid.style.display = 'grid';
+                emptyState.style.display = 'none';
+                
+                postsGrid.innerHTML = filtered.map(post => {
+                    const isUnread = !readPosts.includes(post.id);
+                    return `
+                        <article class="post-card ${post.category}" data-id="${post.id}">
+                            <div class="post-card-image">
+                                SR
+                                ${isUnread ? '<span class="unread-indicator"></span>' : ''}
+                            </div>
+                            <div class="post-card-body">
+                                <span class="post-card-category ${post.category}">${post.categoryLabel}</span>
+                                <h3 class="post-card-title">${post.title}</h3>
+                                <p class="post-card-excerpt">${post.excerpt}</p>
+                                <div class="post-card-meta">
+                                    <span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                        ${post.date}
+                                    </span>
+                                    <span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        ${post.readTime}
+                                    </span>
+                                </div>
+                            </div>
+                        </article>
+                    `;
+                }).join('');
+
+                // Add click listeners
+                document.querySelectorAll('.post-card').forEach(card => {
+                    card.addEventListener('click', () => openModal(parseInt(card.dataset.id)));
+                });
+            }
+        }
+
+        // Open modal
+        function openModal(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (!post) return;
+
+            document.getElementById('modalCategory').textContent = post.categoryLabel;
+            document.getElementById('modalCategory').className = `modal-category ${post.category}`;
+            document.getElementById('modalTitle').textContent = post.title;
+            document.getElementById('modalDate').textContent = post.date;
+            document.getElementById('modalReadTime').textContent = post.readTime;
+            document.getElementById('modalContent').innerHTML = post.content;
+
+            modalOverlay.classList.add('active');
+            postModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            shareBtn.dataset.postId = postId;
+
+            // Mark as read
+            markAsRead(postId);
+        }
+
+        // Close modal
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            postModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Toggle notification panel
+        function toggleNotificationPanel() {
+            notificationPanel.classList.toggle('open');
+            notificationOverlay.classList.toggle('active');
+        }
+
+        function closeNotificationPanel() {
+            notificationPanel.classList.remove('open');
+            notificationOverlay.classList.remove('active');
+        }
+
+        // Event Listeners
+        searchInput.addEventListener('input', (e) => {
+            currentSearch = e.target.value;
+            renderPosts();
+        });
+
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentCategory = btn.dataset.category;
+                renderPosts();
+            });
+        });
+
+        modalClose.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', closeModal);
+
+        notificationBtn.addEventListener('click', toggleNotificationPanel);
+        notificationOverlay.addEventListener('click', closeNotificationPanel);
+
+        markAllRead.addEventListener('click', () => {
+            posts.forEach(p => {
+                if (!readPosts.includes(p.id)) {
+                    readPosts.push(p.id);
+                }
+            });
+            localStorage.setItem('readPosts', JSON.stringify(readPosts));
+            updateNotificationBadge();
+            renderNotifications();
+            renderPosts();
+            renderFeaturedPost();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+                closeNotificationPanel();
+            }
+        });
+
+        // Share
+        shareBtn.addEventListener('click', async () => {
+            const post = posts.find(p => p.id === parseInt(shareBtn.dataset.postId));
+            if (!post) return;
+
+            const shareData = {
+                title: post.title,
+                text: post.excerpt,
+                url: window.location.href
+            };
+
+            if (navigator.share) {
+                try {
+                    await navigator.share(shareData);
+                } catch (err) {
+                    console.log('Share cancelled');
+                }
+            } else {
+                navigator.clipboard.writeText(`${post.title}\n\n${post.excerpt}\n\n${window.location.href}`);
+                shareBtn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Copied!
+                `;
+                setTimeout(() => {
+                    shareBtn.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                        </svg>
+                        Share Article
+                    `;
+                }, 2000);
+            }
+        });
+
+        // PWA Install
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBanner.classList.add('show');
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            deferredPrompt = null;
+            installBanner.classList.remove('show');
+        });
+
+        closeBanner.addEventListener('click', () => {
+            installBanner.classList.remove('show');
+        });
+
+        // Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Service Worker registered'))
+                    .catch(err => console.log('SW registration failed:', err));
+            });
+        }
+
+        // Initialize
+        renderFeaturedPost();
+        renderPosts();
+        renderNotifications();
+        updateNotificationBadge();
+    </script>
+</body>
+</html>
